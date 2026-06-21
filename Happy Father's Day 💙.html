@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://127.0.0.1:5500/father.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Father's Day 💙</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:black;
+}
+
+/* Background Slideshow */
+#bgSlider{
+    position:fixed;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    transition:background-image 1s ease-in-out;
+    z-index:-2;
+}
+
+#overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:-1;
+}
+
+/* UI */
+#ui{
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:65%;
+    z-index:10;
+    color:white;
+}
+
+#question{
+    font-size:26px;
+    color:#7fdcff;
+    text-shadow:0 0 15px #4fc3ff;
+    margin-bottom:15px;
+}
+
+button{
+    padding:12px 25px;
+    margin:8px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#yes{
+    background:#00bfff;
+    color:white;
+}
+
+#no{
+    background:#1e90ff;
+    color:white;
+}
+
+#noText{
+    position:fixed;
+    display:none;
+    color:#8fdfff;
+    font-weight:bold;
+    z-index:999;
+}
+
+/* Result Screen */
+#yesScreen{
+    display:none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    text-align:center;
+    color:white;
+    z-index:20;
+    padding-top:80px;
+}
+
+#msg{
+    margin-top:20px;
+    width:90%;
+    max-width:800px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:20px;
+    line-height:1.6;
+    text-shadow:0 0 10px #4fc3ff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background -->
+<div id="bgSlider" style="background-image: url(&quot;dad2.jpg&quot;);"></div>
+<div id="overlay"></div>
+
+
+
+<!-- Main UI -->
+<div id="ui">
+    <div id="question">
+        👨‍👧 Will You Always Be My Superhero, Dad? 💙
+    </div>
+
+    <button id="yes">YES 💙</button>
+    <button id="no">ALWAYS ⭐</button>
+
+    <div id="noText"></div>
+</div>
+
+<!-- Final Screen -->
+<div id="yesScreen">
+    <h1>💙 Happy Father's Day 💙</h1>
+    <div id="msg"></div>
+</div>
+
+<audio id="bgMusic" loop="">
+    <source src="sukoon.mp3.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+/* ==========================
+   BACKGROUND PHOTO SLIDESHOW
+   Put these images in same folder:
+   dad1.jpg
+   dad2.jpg
+   dad3.jpg
+   dad4.jpg
+========================== */
+
+const photos = [
+    "dad1.jpg",
+    "dad2.jpg",
+    "dad3.jpg",
+    "dad4.jpg"
+];
+
+let currentPhoto = 0;
+const bgSlider = document.getElementById("bgSlider");
+
+bgSlider.style.backgroundImage =
+`url('${photos[0]}')`;
+
+setInterval(() => {
+
+    currentPhoto =
+    (currentPhoto + 1) % photos.length;
+
+    bgSlider.style.backgroundImage =
+    `url('${photos[currentPhoto]}')`;
+
+}, 3000);
+
+
+
+/* ==========================
+   MOVING BUTTON
+========================== */
+
+const noBtn =
+document.getElementById("no");
+
+const noText =
+document.getElementById("noText");
+
+const messages = [
+
+"💙 World's Best Dad!",
+"⭐ My Superhero!",
+"👨‍👧 My First Hero!",
+"💖 Thank You Dad!",
+"✨ My Inspiration!",
+"🥰 Love You Papa!"
+
+];
+
+function moveButton(){
+
+    const r =
+    noBtn.getBoundingClientRect();
+
+    let x =
+    Math.random() *
+    (window.innerWidth-r.width);
+
+    let y =
+    Math.random() *
+    (window.innerHeight-r.height);
+
+    noBtn.style.position="fixed";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+
+    noText.style.display="block";
+
+    noText.style.left=x+"px";
+    noText.style.top=(y-35)+"px";
+
+    noText.innerText =
+    messages[
+        Math.floor(
+            Math.random()*
+            messages.length
+        )
+    ];
+}
+
+noBtn.addEventListener(
+    "mouseover",
+    moveButton
+);
+
+/* ==========================
+   TYPING MESSAGE
+========================== */
+
+const text =
+"💙 Happy Father's Day Dad! Thank you for every sacrifice, every lesson, every smile and every moment of support. You are my first hero, my greatest teacher and my biggest strength. No matter how old I become, I will always be proud to be your child. Love you forever Dad 👨‍👧✨";
+
+let i = 0;
+
+function typeText(){
+
+    if(i < text.length){
+
+        document
+        .getElementById("msg")
+        .innerHTML += text.charAt(i);
+
+        i++;
+
+        setTimeout(
+            typeText,
+            35
+        );
+    }
+}
+
+/* YES BUTTON */
+
+/*document
+.getElementById("yes")
+.onclick = () => {
+
+    document
+    .getElementById("ui")
+    .style.display="none";
+
+    document
+    .getElementById("yesScreen")
+    .style.display="block";
+
+    typeText();
+};
+
+window.addEventListener(
+    "resize",
+    resize
+);*/
+/* MUSIC */
+let musicStarted = false;
+
+function playMusic() {
+
+    const music =
+    document.getElementById("bgMusic");
+
+    if (!musicStarted) {
+
+        music.currentTime = 145; 
+
+        music.play();
+
+        musicStarted = true;
+    }
+}
+document.getElementById("yes").onclick = () => {
+
+    playMusic();
+
+    document.getElementById("ui").style.display = "none";
+
+    document.getElementById("yesScreen").style.display = "block";
+
+    typeText();
+};
+
+
+
+</script>
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>
